@@ -10,7 +10,7 @@ class Owner
   end
 
   def say_species
-    "I am a #{@species}."
+    "I am a #{species}."
   end
 
   def self.all
@@ -18,27 +18,35 @@ class Owner
   end
 
   def self.count
-    self.all.count
+    all.count
   end
 
   def self.reset_all
-    @@all.clear
+    all.clear
+  end
+
+  def pick_pets(klass)
+    klass.all.select {|pet| pet.owner == self}
   end
 
   def cats
-    Cat.all.select {|cat| cat.owner == self}
+    pick_pets(Cat)
   end
 
   def dogs
-    Dog.all.select {|dog| dog.owner == self}
+    pick_pets(Dog)
   end
 
-  def buy_cat(cat)
-    Cat.new(cat, self)
+  def buy_animal(klass, name)
+    klass.new(name, self)
   end
 
-  def buy_dog(dog)
-    Dog.new(dog, self)
+  def buy_cat(name)
+    buy_animal(Cat, name)
+  end
+
+  def buy_dog(name)
+    buy_animal(Dog, name)
   end
 
   def walk_dogs
